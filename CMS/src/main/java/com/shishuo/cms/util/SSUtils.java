@@ -15,6 +15,9 @@ public class SSUtils {
 	 * @return
 	 */
 	public static String toUnderline(String str) {
+		if(str == null){
+			return null;
+		}
 		str = StringUtils.uncapitalize(str);
 		char[] letters = str.toCharArray();
 		StringBuilder sb = new StringBuilder();
@@ -32,5 +35,11 @@ public class SSUtils {
 		System.out.println(SSUtils.toUnderline("SSUtils"));
 		System.out.println(SSUtils.toUnderline("FolderPathTag"));
 		System.out.println(SSUtils.toUnderline("DDDDddAddadsfDDDDDDasdfD"));
+		
+		System.out.println(SSUtils.toUnderline(null));
+		System.out.println(SSUtils.toUnderline(""));
+		
+		System.out.println(StringUtils.uncapitalize("abcDef"));
+		System.out.println(StringUtils.uncapitalize("ABCDEF"));
 	}
 }
