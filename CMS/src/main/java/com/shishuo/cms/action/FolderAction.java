@@ -5,6 +5,7 @@
  */
 package com.shishuo.cms.action;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -13,6 +14,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import com.shishuo.cms.entity.Folder;
+import com.shishuo.cms.service.ConfigService;
 
 /**
  * @author Herbert
@@ -21,6 +23,9 @@ import com.shishuo.cms.entity.Folder;
 @Controller
 @RequestMapping("/folder")
 public class FolderAction extends BaseAction {
+	
+	@Autowired
+	private ConfigService configService;
 
 	/**
 	 * 目录ID
@@ -39,6 +44,7 @@ public class FolderAction extends BaseAction {
 			modelMap.put("folder", folder);
 			modelMap.put("g_folderId", folder.getFolderId());
 			modelMap.put("p", p);
+			modelMap.put("rows", configService.getStringByKey("rows"));
 			return themeService.getFolderTemplate(folder.getFolderId());
 		} catch (Exception e) {
 			modelMap.addAttribute("g_folderId", 0);
