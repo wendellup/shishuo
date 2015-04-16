@@ -8,27 +8,36 @@
 					</p>
 				</div>
 				-->
-				<div class="sidebar-module sidebar-module-inset">
-					<h4><a href="<@shishuo_folder_url_tag folderId=1/>">博客目录</a></h4>
+				<#if folder?? && folder.path??>
+					<#if folder.path?contains("#") >
+						<#assign root_parent_id=folder.path?substring(0, folder.path?index_of("#"))/>
+					<#else>
+						<#assign root_parent_id=folder.path/>
+					</#if>
+					<div class="sidebar-module sidebar-module-inset">
+					<h4>
+						<a href="<@shishuo_folder_url_tag folderId=root_parent_id/>">
+							<@shishuo_folder_tag folderId=root_parent_id>
+								${tag_folder.name}
+							</@shishuo_folder_tag>
+						</a></h4>
 					<ol class="list-unstyled">
-						<@shishuo_folder_list_tag folderId= 1>
+						<@shishuo_folder_list_tag folderId= root_parent_id>
 		                		<#list tag_folder_list as tag_folder>
 									<li>
 										<a href="<@shishuo_folder_url_tag folderId=tag_folder.folderId/>">${tag_folder.name}</a>
+										<@shishuo_folder_list_tag folderId= tag_folder.folderId>
+					                		<#list tag_folder_list as tag_sub_folder>
+												<li>
+													&nbsp;&nbsp;&nbsp;&nbsp;<a href="<@shishuo_folder_url_tag folderId=tag_sub_folder.folderId/>">${tag_sub_folder.name}</a>
+												</li>
+											</#list>
+				               			</@shishuo_folder_list_tag>
 									</li>
 								</#list>
 	               		</@shishuo_folder_list_tag>
 					</ol>
 				</div>
-				<div class="sidebar-module sidebar-module-inset">
-					<h4>功能</h4>
-					<ol class="list-unstyled">
-						<li><a href="${BASE_PATH}/admin/login.htm">登录</a><li>
-					</ol>
-				</div>
-				<div class="sidebar-module">
-					 <a target="_balnk" rel="nofollow" href="http://s.click.taobao.com/t?e=m%3D2%26s%3DIBpia%2BLo0tEcQipKwQzePCperVdZeJviEViQ0P1Vf2kguMN8XjClAjrHDnuydt9DjEirhkXBrn3taZwnSL6Nwn5Xa4s7Qs0aQZoJJOKTMC8aPrINdm0lpOdn1BbglxZYxUhy8exlzcq9AmARIwX9K%2BnbtOD3UdznPV1H2z0iQv9NkKVMHClW0QbMqOpFMIvnvjQXzzpXdTHGJe8N%2FwNpGw%3D%3D">
-	 					<img style="" src="${TEMPLATE_BASE_PATH}/images/aliyun.jpg?v=${config_v}">
-	 				</a>
-				</div>
+				</#if>
+				
 			</div>
