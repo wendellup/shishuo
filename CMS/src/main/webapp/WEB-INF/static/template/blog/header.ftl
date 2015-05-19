@@ -36,7 +36,9 @@
 			<a class="blog-nav-item <#if 0==g_folderId>active</#if>" href="${BASE_PATH}/index.htm">首页</a>
 	                <#list tag_folder_list as tag_folder>
 	                	<a class="blog-nav-item <#if tag_folder.folderId==g_folderId>active</#if>" href="<@shishuo_folder_url_tag folderId=tag_folder.folderId/>">${tag_folder.name}</a>
-			</#list>
+					</#list>
+					<a class="blog-nav-item" href="${BASE_PATH}/v2/zhihu/daily/list">知乎日报</a>
+					<a class="blog-nav-item" href="${BASE_PATH}/static/html/help.html">工具页面</a>
            		</@shishuo_folder_list_tag>
 			</nav>
 		</div>

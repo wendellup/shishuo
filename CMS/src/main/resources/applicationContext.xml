@@ -23,7 +23,7 @@
 	         http://www.springframework.org/schema/task/spring-task.xsd">
 
 	<!-- 自动扫描的包名 -->
-	<context:component-scan base-package="com.shishuo.cms"></context:component-scan>
+	<context:component-scan base-package="com.cloud, com.shishuo.cms" ></context:component-scan>
 
 	<mvc:annotation-driven />
 
@@ -78,7 +78,31 @@
 		</property>
 	</bean>
 
-
+	<!--通用视图解析器-->
+    <bean id="viewResolverCommon" class="org.springframework.web.servlet.view.InternalResourceViewResolver">  
+        <property name="prefix" value="/WEB-INF/views/"/>    
+        <property name="suffix" value=".jsp"/><!-- 可为空,方便实现自已的依据扩展名来选择视图解释类的逻辑    -->
+        <property name="viewClass">  
+            <value>org.springframework.web.servlet.view.InternalResourceView</value>  
+        </property>  
+        <property name="order" value="1"/>  
+    </bean> 
+    
+	<!--json解析器-->
+	<!-- <bean
+		class="org.springframework.web.servlet.mvc.annotation.AnnotationMethodHandlerAdapter">
+		<property name="messageConverters">
+			<list>
+				<ref bean="stringHttpMessageConverter" />
+				<ref bean="jsonHttpMessageConverter" />
+				<ref bean="marshallingHttpMessageConverter" />
+			</list>
+		</property>
+	</bean>
+	
+	<bean id="stringHttpMessageConverter" class="org.springframework.http.converter.StringHttpMessageConverter" />
+	<bean id="jsonHttpMessageConverter" class="org.springframework.http.converter.json.MappingJacksonHttpMessageConverter" />
+ -->
 	<!-- FreeMarker的配置 -->
 	<bean id="freeMarkerConfigurer"
 		class="org.springframework.web.servlet.view.freemarker.FreeMarkerConfigurer">
@@ -105,13 +129,16 @@
 		class="org.springframework.web.servlet.view.freemarker.FreeMarkerViewResolver">
 		<property name="viewClass"
 			value="org.springframework.web.servlet.view.freemarker.FreeMarkerView"></property>
-		<property name="cache" value="false" />
-		<property name="prefix" value="" />
+		<property name="cache" value="true" />
+		<!-- <property name="prefix" value="/WEB-INF/static/" /> -->
 		<property name="suffix" value=".ftl" /><!--可为空,方便实现自已的依据扩展名来选择视图解释类的逻辑 -->
 		<property name="contentType" value="text/html;charset=utf-8" />
 		<property name="exposeRequestAttributes" value="true" />
 		<property name="exposeSessionAttributes" value="true" />
 		<property name="exposeSpringMacroHelpers" value="true" />
+		<property name="order" value="0"/>
+		<property name="allowSessionOverride" value="true"/>  
+		
 	</bean>
 
 	<!-- 图片上传的配置 -->
