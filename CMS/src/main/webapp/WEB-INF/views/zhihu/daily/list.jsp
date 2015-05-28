@@ -166,11 +166,9 @@
 	</div>
 
 	
-	<script type="text/javascript">
-		var _bdhmProtocol = (("https:" == document.location.protocol) ? " https://" : " http://");
-		document.write(unescape("%3Cscript src='" + _bdhmProtocol + "hm.baidu.com/h.js%3Ff58c5217515b490a0be5bb523c285c5c' type='text/javascript'%3E%3C/script%3E"));
-	</script>
-
+	<script src="${request.pageContext.contextPath}/static/js/common.js"></script>
+	<!-- 腾讯统计 -->
+	<script src="http://tajs.qq.com/stats?sId=45991937" charset="UTF-8"></script>
 
 
 	<!-- 多说评论框 start -->

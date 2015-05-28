@@ -13,5 +13,9 @@
 	<!-- IE10 viewport hack for Surface/desktop Windows 8 bug -->
 	<script
 		src="${TEMPLATE_BASE_PATH}/js/ie10-viewport-bug-workaround.js"></script>
+		
+	<script src="${TEMPLATE_BASE_PATH}/../../js/common.js"></script>
+	<!-- 腾讯统计 -->
+	<script type="text/javascript" src="http://tajs.qq.com/stats?sId=45991937" charset="UTF-8"></script>
 </body>
 </html>
