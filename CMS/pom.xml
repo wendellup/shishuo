@@ -170,6 +170,21 @@
 			<artifactId>thumbnailator</artifactId>
 			<version>0.4.7</version>
 		</dependency>
+		
+		<dependency>
+			<groupId>egame.common</groupId>
+			<artifactId>egame.common</artifactId>
+			<version>1.0</version>
+			<scope>system</scope>
+			<systemPath>${basedir}/src/main/webapp/WEB-INF/lib/egame.common.jar</systemPath>
+		</dependency>
+		<dependency>
+			<groupId>egame.common-servlet</groupId>
+			<artifactId>egame.common-servlet</artifactId>
+			<version>1.0</version>
+			<scope>system</scope>
+			<systemPath>${basedir}/src/main/webapp/WEB-INF/lib/egame.common-servlet.jar</systemPath>
+		</dependency>
 	</dependencies>
 	
 
