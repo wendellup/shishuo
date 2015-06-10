@@ -7,25 +7,24 @@ public class ReportGameDayDown implements Serializable {
     private static final long serialVersionUID = -6940117068986988709L;
 
     private Integer id;
-    private int gId;
+    private int g_id;
     private String bucket;
     private String prefix;
-    private String fileName;
+    private String file_name;
     private Date date;
-    private long dayCountsTotal;
-    private long dayCountsIncr;
-    
+    private long day_counts_total;
+    private long day_counts_incr;
 	public Integer getId() {
 		return id;
 	}
 	public void setId(Integer id) {
 		this.id = id;
 	}
-	public int getgId() {
-		return gId;
+	public int getG_id() {
+		return g_id;
 	}
-	public void setgId(int gId) {
-		this.gId = gId;
+	public void setG_id(int g_id) {
+		this.g_id = g_id;
 	}
 	public String getBucket() {
 		return bucket;
@@ -39,11 +38,11 @@ public class ReportGameDayDown implements Serializable {
 	public void setPrefix(String prefix) {
 		this.prefix = prefix;
 	}
-	public String getFileName() {
-		return fileName;
+	public String getFile_name() {
+		return file_name;
 	}
-	public void setFileName(String fileName) {
-		this.fileName = fileName;
+	public void setFile_name(String file_name) {
+		this.file_name = file_name;
 	}
 	public Date getDate() {
 		return date;
@@ -51,18 +50,19 @@ public class ReportGameDayDown implements Serializable {
 	public void setDate(Date date) {
 		this.date = date;
 	}
-	public long getDayCountsTotal() {
-		return dayCountsTotal;
+	public long getDay_counts_total() {
+		return day_counts_total;
 	}
-	public void setDayCountsTotal(long dayCountsTotal) {
-		this.dayCountsTotal = dayCountsTotal;
+	public void setDay_counts_total(long day_counts_total) {
+		this.day_counts_total = day_counts_total;
 	}
-	public long getDayCountsIncr() {
-		return dayCountsIncr;
+	public long getDay_counts_incr() {
+		return day_counts_incr;
 	}
-	public void setDayCountsIncr(long dayCountsIncr) {
-		this.dayCountsIncr = dayCountsIncr;
+	public void setDay_counts_incr(long day_counts_incr) {
+		this.day_counts_incr = day_counts_incr;
 	}
-
+    
+    
     
 }

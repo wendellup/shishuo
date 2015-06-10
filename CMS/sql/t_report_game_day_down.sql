@@ -1,12 +1,12 @@
 CREATE TABLE `t_report_game_day_down` (
   `id` bigint(20) NOT NULL AUTO_INCREMENT,
   `g_id` int(11) DEFAULT NULL,
-  `bucket` varchar(32) DEFAULT '0' COMMENT 'ÔÆ¿Õ¼äÃû³Æ',
-  `prefix` varchar(32) DEFAULT '0' COMMENT 'ÎÄ¼şÇ°×ºÃû',
-  `file_name` varchar(128) DEFAULT '0' COMMENT 'ÎÄ¼şÃû',
-  `date` date NOT NULL DEFAULT '0000-00-00' COMMENT '¸üĞÂÊ±¼ä',
-  `day_counts_total` int(11) DEFAULT '0' COMMENT 'ÈÕÏÂÔØÔöÁ¿',
-  `day_counts_incr` int(11) DEFAULT '0' COMMENT 'ÈÕÏÂÔØÔöÁ¿',
+  `bucket` varchar(32) DEFAULT '0' COMMENT 'äº‘ç©ºé—´åç§°',
+  `prefix` varchar(32) DEFAULT '0' COMMENT 'æ–‡ä»¶å‰ç¼€å',
+  `file_name` varchar(128) DEFAULT '0' COMMENT 'æ–‡ä»¶å',
+  `date` date NOT NULL DEFAULT '0000-00-00' COMMENT 'æ›´æ–°æ—¶é—´',
+  `day_counts_total` int(11) DEFAULT '0' COMMENT 'æ—¥ä¸‹è½½å¢é‡',
+  `day_counts_incr` int(11) DEFAULT '0' COMMENT 'æ—¥ä¸‹è½½å¢é‡',
   PRIMARY KEY (`id`),
   UNIQUE KEY `identity_file_idx` (`bucket`,`prefix`,`file_name`) USING BTREE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;

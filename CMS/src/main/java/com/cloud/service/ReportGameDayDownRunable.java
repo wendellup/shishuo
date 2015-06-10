@@ -1,15 +1,17 @@
 package com.cloud.service;
 
+import javax.servlet.ServletContext;
+
 import org.apache.log4j.Logger;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Service;
+import org.springframework.context.ApplicationContext;
+import org.springframework.web.context.support.WebApplicationContextUtils;
+
+import cn.egame.common.util.Utils;
 
 import com.cloud.dao.ReportGameDayDownDao;
 import com.cloud.valueobject.po.ReportGameDayDown;
 
-@Service
 public class ReportGameDayDownRunable implements Runnable {
-	@Autowired
 	private ReportGameDayDownDao reportGameDayDownDao;
 	
     Logger log = Logger.getLogger(ReportGameDayDownRunable.class);
@@ -22,7 +24,15 @@ public class ReportGameDayDownRunable implements Runnable {
 		super();
 	}
 
-	public ReportGameDayDownRunable(String bucket, String prefix, String fileName) {
+	public ReportGameDayDownRunable(ServletContext sc, String bucket, String prefix, String fileName) {
+//		ApplicationContext ac = new ClassPathXmlApplicationContext("testApplicationContext.xml");
+//		reportGameDayDownDao = (ReportGameDayDownDao) ac.getBean("reportGameDayDownDao");;
+		
+//		ApplicationContext ac = WebApplicationContextUtils.getWebApplicationContext(sc);
+//		ApplicationContext ac = WebApplicationContextUtils.getRequiredWebApplicationContext(sc);
+		ApplicationContext ac=(ApplicationContext)sc.getAttribute("org.springframework.web.servlet.FrameworkServlet.CONTEXT.spring");
+		reportGameDayDownDao = (ReportGameDayDownDao) ac.getBean("reportGameDayDownDao");; 
+		
         this.bucket = bucket;
         this.prefix = prefix;
         this.fileName = fileName;
@@ -32,8 +42,9 @@ public class ReportGameDayDownRunable implements Runnable {
     public void run() {
         try {
             ReportGameDayDown re = new ReportGameDayDown();
-            int id = reportGameDayDownDao.getReportGameDayDownIdByIdentityFileAndTodayDate(bucket,
+            Integer id = reportGameDayDownDao.getReportGameDayDownIdByIdentityFileAndTodayDate(bucket,
             		prefix, fileName);
+            id = Utils.toInt(id, 0);
             if (id > 0) {
                 re.setId(id);
             } else {
@@ -42,16 +53,16 @@ public class ReportGameDayDownRunable implements Runnable {
 
             re.setBucket(bucket);
             re.setPrefix(prefix);
-            re.setFileName(fileName);
+            re.setFile_name(fileName);
             if(id>0){
-            	reportGameDayDownDao.updateReportGameDayDown(re);
+            	reportGameDayDownDao.incrReportGameDayDown(re);
             }else{
             	reportGameDayDownDao.insertReportGameDayDown(re);
             }
         } catch (Exception e) {
             log.error("", e);
         }
-
     }
 
+    
 }

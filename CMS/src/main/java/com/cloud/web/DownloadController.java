@@ -2,13 +2,13 @@ package com.cloud.web;
 
 import java.io.IOException;
 
+import javax.servlet.ServletContext;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import org.apache.log4j.Logger;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.servlet.ModelAndView;
 
 import cn.egame.common.exception.ExceptionCommonBase;
 import cn.egame.common.util.Utils;
@@ -58,17 +58,21 @@ public class DownloadController {
     private static void redirectGameUrl(HttpServletRequest req, HttpServletResponse resp, String fileUrl, DownParamInfo downParamInfo)
             throws IOException, ExceptionCommonBase {
         if (!Utils.stringIsNullOrEmpty(fileUrl)) {
+        	ServletContext sc = req.getSession().getServletContext();
             resp.sendRedirect(fileUrl);
             // 记录下载日志
-            recordDownloadlog(downParamInfo.getBucket(), downParamInfo.getPrefix(), downParamInfo.getFileName());
+            recordDownloadlog(sc, downParamInfo.getBucket(), downParamInfo.getPrefix(), downParamInfo.getFileName());
         } else {
             LOGGER.info("down_url=" + fileUrl + "; " + downParamInfo.getIp()+"下载地址错误...");
             throw new ExceptionCommonBase(HttpServletResponse.SC_NOT_FOUND, "");
         }
     }
     
-    private static void recordDownloadlog(String bucket, String prefix, String fileName) {
-        Thread t = new Thread(new ReportGameDayDownRunable(bucket, prefix, fileName));
-        t.start();
-    }
+	private static void recordDownloadlog(ServletContext sc,
+			String bucket, String prefix, String fileName) {
+		
+		Thread t = new Thread(new ReportGameDayDownRunable(sc, bucket, prefix,
+				fileName));
+		t.start();
+	}
 }

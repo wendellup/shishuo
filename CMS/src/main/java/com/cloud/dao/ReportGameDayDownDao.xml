@@ -3,6 +3,13 @@
 
 <mapper namespace="com.cloud.dao.ReportGameDayDownDao">
 
+<!-- 
+	<typeAlias alias="reportGameDayDown" type="com.cloud.valueobject.po.ReportGameDayDown"/>
+	<parameterMap id="reportGameDayDownMap" type="reportGameDayDown">
+		<parameter property="fileName" resultMap="file_name"/>
+	</parameterMap>
+	 -->
+
 	<!-- ############################## -->
 	<!-- ###### 查询 ###### -->
 	<!-- ############################## -->
@@ -29,6 +36,12 @@
 		WHERE
 		id=#{id}
 	</update>
+	
+	<update id="incrReportGameDayDown" parameterType="com.cloud.valueobject.po.ReportGameDayDown">
+		update t_report_game_day_down set day_counts_total = day_counts_total +1,day_counts_incr = day_counts_incr+1
+		WHERE
+		id=#{id}
+	</update>
 
 	<!-- ############################## -->
 	<!-- ###### 增加 ###### -->
@@ -36,7 +49,7 @@
 	<insert id="insertReportGameDayDown" parameterType="com.cloud.valueobject.po.ReportGameDayDown">
 		insert into
 		t_report_game_day_down(g_id,bucket,prefix,file_name,date,day_counts_total,day_counts_incr)
-		values(#{g_id},#{bucket},#{prefix},CURDATE(),#{summary},1,1)
+		values(#{g_id},#{bucket},#{prefix},#{file_name},CURDATE(),1,1)
 		<selectKey resultType="Integer" keyProperty="id">
 			SELECT
 			LAST_INSERT_ID()
