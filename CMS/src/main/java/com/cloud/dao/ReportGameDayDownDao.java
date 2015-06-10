@@ -4,7 +4,7 @@ import org.springframework.stereotype.Repository;
 
 import com.cloud.valueobject.po.ReportGameDayDown;
 
-@Repository("reportGameDayDownDao")
+@Repository
 public interface ReportGameDayDownDao {
 
 	public int getReportGameDayDownIdByIdentityFileAndTodayDate(String bucket,

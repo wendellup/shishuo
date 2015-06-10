@@ -8,6 +8,7 @@ import javax.servlet.http.HttpServletResponse;
 import org.apache.log4j.Logger;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.servlet.ModelAndView;
 
 import cn.egame.common.exception.ExceptionCommonBase;
 import cn.egame.common.util.Utils;
@@ -20,12 +21,13 @@ import com.cloud.web.utils.ConstVar;
 
 
 @Controller
-@RequestMapping(value="/v2/download")
+@RequestMapping(value="/v2/dl")
 public class DownloadController {
 	
 	private static Logger LOGGER = Logger.getLogger(DownloadController.class);
 	
-	public static Object gameDownLoad(HttpServletRequest req, HttpServletResponse resp, String[] path, Object token)
+	@RequestMapping(value="/download")
+	public static void downLoad(HttpServletRequest req, HttpServletResponse resp, String[] path, Object token)
             throws Exception {
 		
         // 请求封装参数
@@ -41,14 +43,15 @@ public class DownloadController {
         // 重定向游戏url开始下载
         String downloadUrl = null;
   
-        if(downParamInfo.getBucket()=="superman"){
+        if(downParamInfo.getBucket().equals("superman")){
         	downloadUrl = ConstVar.QINIU_HOST_SUPERMAN
         			+ downParamInfo.getPrefix() + "/" + downParamInfo.getFileName();
         }
         redirectGameUrl(req, resp, downloadUrl, downParamInfo);
         // 植入下载指定游戏事件
 //        pubDownEvent(downParamInfo);
-        return "";
+//        ModelAndView mav = new ModelAndView("dl/download");
+//		return mav;
     }
 	
 	// 重定向游戏url开始下载

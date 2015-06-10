@@ -49,7 +49,7 @@ public class ReportGameDayDownRunable implements Runnable {
             	reportGameDayDownDao.insertReportGameDayDown(re);
             }
         } catch (Exception e) {
-            log.error(null, e);
+            log.error("", e);
         }
 
     }
