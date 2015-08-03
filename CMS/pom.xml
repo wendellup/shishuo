@@ -172,6 +172,12 @@
 		</dependency>
 		
 		<dependency>
+			<groupId>dom4j</groupId>
+			<artifactId>dom4j</artifactId>
+			<version>1.6.1</version>
+		</dependency>
+		
+		<dependency>
 			<groupId>egame.common</groupId>
 			<artifactId>egame.common</artifactId>
 			<version>1.0</version>

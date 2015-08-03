@@ -8,14 +8,22 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import org.apache.log4j.Logger;
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import cn.egame.common.servlet.WebUtils;
+import cn.egame.common.util.Utils;
 
+import com.cloud.valueobject.vo.Image;
+import com.cloud.valueobject.vo.TextMessage;
 import com.cloud.web.utils.EncoderHandler;
+import com.cloud.web.utils.XmlUtil;
 
 @Controller
 @RequestMapping(value = "/v2/wechat")
@@ -35,6 +43,67 @@ public class WeChatController {
 		aoo.setName("wendellup");
 		return aoo;
 	}
+	
+	/*
+	@ResponseBody
+	@RequestMapping(value = "/access", method = RequestMethod.POST)
+	public Object msgHandler(HttpServletRequest req,
+			HttpServletResponse response) throws Exception {
+		SAXReader saxReader = new SAXReader();
+        try {
+            Document document = saxReader.read(req.getInputStream());
+            Element users = document.getRootElement();
+            for (Iterator i = users.elementIterator(); i.hasNext();) {
+                Element user = (Element) i.next();
+                logger.info(user.getName() + ":" + user.getText());
+            }
+        } catch (DocumentException e) {
+        	logger.error(e);
+        }
+		return "";
+	}
+	*/
+	
+	@ResponseBody
+	@RequestMapping(value = "/access", method = RequestMethod.POST)
+	public Object msgHandler(HttpServletRequest req,
+			HttpServletResponse response,@RequestBody String body) throws Exception {
+		logger.info("reqest body:\n"+body);
+		TextMessage requestMessage = XmlUtil.toTextMessage(body);
+//      String msgType = requestMessage.getMsgType();
+//      String toUserName = requestMessage.getToUserName();
+//      String fromUserName = requestMessage.getFromUserName();
+      //判断消息类型，如果是event，且事件类型为subscribe，则新建一个文本消息
+//      if (MessageType.event.name().equals(msgType)) {
+//          if (EventType.subscribe.name().equals(requestMessage.getEvent())) {
+//              String message = "感谢您关注我的公众账号[愉快]";
+//              textMessage = new TextMessage(toUserName, fromUserName,
+//                      MessageType.text.name(), message, TimeUtil.currentSeconds());
+//          }
+//      }
+
+		TextMessage respMsg = new TextMessage();
+		respMsg.setContent(requestMessage.getContent()+System.currentTimeMillis());
+		respMsg.setCreateTime(System.currentTimeMillis());
+		respMsg.setFromUserName(requestMessage.getToUserName());
+		respMsg.setToUserName(requestMessage.getFromUserName());
+		respMsg.setMsgType(requestMessage.getMsgType());
+		if(requestMessage.getMsgType()!=null && requestMessage.getMsgType().equals("image")){
+			//如果是图片消息
+			Image image = new Image();
+			image.setMediaId(requestMessage.getMediaId());
+			respMsg.setImage(image);
+		}
+      
+      //将文本消息转换为xml文本
+      String responseMessage = XmlUtil.toXml(respMsg);
+      logger.info(String.format("response message: \n", responseMessage));
+      logger.info("receive message finish");
+      HttpHeaders responseHeaders = new HttpHeaders();
+//      //设置返回实体的编码，不设置的话可能会变成乱码
+      responseHeaders.add("Content-Type", "text/html; charset=utf-8");
+      return new ResponseEntity<String>(responseMessage, responseHeaders, HttpStatus.OK);
+ 	}
 
 	/**
 	 * @desc 微信公众平台接入方法,对应文章url:http://mp.weixin.qq.com/wiki/17/2d4265491f12608
@@ -69,13 +138,7 @@ public class WeChatController {
 		if (catStr.equals(signature)) {
 			isValid = true;
 		}
-
 		return echostr;
-		// if(isValid){
-		// return echostr;
-		// }else{
-		// return false;
-		// }
 	}
 
 	public String getIpAddr(HttpServletRequest request) {
